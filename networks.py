@@ -25,9 +25,9 @@ class pix2pixGAN():
         if spec_norm:
             self.gen_spec_norm = training_utils.SpectralNormalization(generator)
             self.critic_spec_norm = training_utils.SpectralNormalization(critic)
-        self.apply_ema = weight_ema
         if weight_ema:
-            self.ema_obj = tf.train.ExponentialMovingAverage(decay = 0.999)
+            self.ema_obj = tf.train.ExponentialMovingAverage(0.999)
+            self.apply_ema = True
 
     @staticmethod
     def preprocess_jpg(image):
@@ -147,8 +147,9 @@ class pix2pixGAN():
 
         if self.apply_ema:
             self.ema_obj.apply(self.generator.trainable_weights)
-
-
+            for weight in self.generator.trainable_weights:
+                weight.assign(self.ema_obj.average(weight))
+        
     def generate_image(self, X,Y):
     
         m = X.shape[0]
