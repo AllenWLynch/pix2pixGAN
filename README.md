@@ -14,23 +14,11 @@ Demonstrate my ability to translate important entries in the ML literature into 
 I packaged the model-training script into a convenient program with hyperparameters exposed as argmuments for tuning the training.
 
 ## Architectures
-Generative network (G): 16-layer U-Net with strided downsampling and nearest-neighbor upsampling. Downsampling and Upsampling layers have self-attention layers to model long-range dependencies.<br>
+Generative network (G): 8-layer U-Net with strided downsampling instead of pooling and nearest-neighbor+convolutional upsampling. Grey boxes show convolutional layers, while blue shows self-attention layers. Instance normalization is used instead of batch-normalization before ReLU non-linearities are applied<br>
 <img src='generator.png'>
-Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 70x70 pixel square of input image. This could be tailored for different input image sizes in the future.
 
-## Loss functions (objective: minimize)
-
-### Least-squares loss
-
-$$L_{critic}(X,Y) = E[(D(Y|X) - 1.)^{2}] + E[D(G(X)|X)^{2}]$$
-
-$$L_{generator}(X,Y) = E[(D(G(X)|X) - 1.)^2]$$
-
-### L1-norm loss
-
-$$L_{generator}(Y_{true},X) = \lambda \cdot E[\left\lVert Y_{true} - G(X) \right\rVert_1]$$
-
-<p>Note: training script uses least-square and L1-norm losses, which yielded the most stable training. lambda parameter was set at 10.</p>
+Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 70x70 pixel square of input image. This could be tailored for different input image sizes in the future.<br>
+<img src='discriminator.png'>
 
 ## Features for stable training
 

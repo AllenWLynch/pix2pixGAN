@@ -97,7 +97,7 @@ if __name__ == "__main__":
     l1_loss = losses.L1_Loss(args.MAE_lambda)
     loss_obj = losses.CompositeLossWrapper([leastsquares_loss, l1_loss], log_writer)
 
-    p2p_GAN = networks.pix2pixGAN(critic, generator, generator_optimizer, critic_optimizer, loss_obj, args.spectral_norm, args.generator_ema)
+    p2p_GAN = networks.pix2pixGAN(critic, generator, critic_optimizer, generator_optimizer, loss_obj, args.spectral_norm, args.generator_ema)
 
     print('Successfully initialized model and training data.')
     print('Point tensorboard to {} to monitor training.'.format(args.logdir))

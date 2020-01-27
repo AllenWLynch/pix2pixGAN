@@ -25,8 +25,9 @@ class pix2pixGAN():
         if spec_norm:
             self.gen_spec_norm = training_utils.SpectralNormalization(generator)
             self.critic_spec_norm = training_utils.SpectralNormalization(critic)
+        self.apply_ema = False
         if weight_ema:
-            self.ema_obj = tf.train.ExponentialMovingAverage(0.999)
+            self.ema_obj = tf.train.ExponentialMovingAverage(0.5, zero_debias = True)
             self.apply_ema = True
 
     @staticmethod
@@ -177,9 +178,9 @@ class SelfAttnLayer(tf.keras.layers.Layer):
         assert(nc // self.k > 0)
         self.flattener = tf.keras.layers.Reshape((h*w, -1))
         self.deflattener = tf.keras.layers.Reshape((h, w, nc))
-        self.convQ = tf.keras.layers.Conv2D(nc//self.k, (1,1), padding = 'SAME')
-        self.convK = tf.keras.layers.Conv2D(nc//self.k, (1,1), padding = 'SAME')
-        self.convV = tf.keras.layers.Conv2D(nc, (1,1), padding = 'SAME')
+        self.convQ = tf.keras.layers.Conv2D(nc//self.k, (1,1), padding = 'SAME', use_bias = False)
+        self.convK = tf.keras.layers.Conv2D(nc//self.k, (1,1), padding = 'SAME', use_bias = False)
+        self.convV = tf.keras.layers.Conv2D(nc, (1,1), padding = 'SAME', use_bias = False)
         self.gamma = tf.Variable(0., dtype = 'float32', trainable = True, name = 'gamma')
 
     def call(self, X):
@@ -220,6 +221,7 @@ def upsample_layer(num_filters, filter_size, kernel_init, input_shape, apply_dro
     resized = layers.UpSampling2D(2)(X)
     conv_X = layers.Conv2D(num_filters, filter_size, strides = 1, use_bias = False,
         padding = 'same', kernel_initializer = kernel_init)(resized)
+    conv_X = normalization_layers.InstanceNormalization()(conv_X)
     if apply_dropout:
         conv_X = layers.Dropout(0.5)(conv_X)
     output = layers.LeakyReLU()(conv_X)
