@@ -2,7 +2,7 @@
 Author: Allen Lynch, 2019
 
 ## Goal
-
+<hr>
 Demonstrate my ability to translate important entries in the ML literature into my own easy-to-use platform. Here, I use TensorFlow to implement recent innovations in conditional GAN networks, utilizing a suite of the framework's capabilities:
 * Keras Functional and Sequential APIs
 * TensorFlow Datasets
@@ -14,6 +14,7 @@ Demonstrate my ability to translate important entries in the ML literature into 
 I packaged the model-training script into a convenient program with hyperparameters exposed as argmuments for tuning the training.
 
 ## Architectures
+<hr>
 Generative network (G): 8-layer U-Net with strided downsampling instead of pooling and nearest-neighbor+convolutional upsampling. Grey boxes show convolutional layers, while blue shows self-attention layers. Instance normalization is used instead of batch-normalization before ReLU non-linearities are applied<br>
 <img src='generator.png'>
 
@@ -21,7 +22,7 @@ Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 7
 <img src='discriminator.png'>
 
 ## Features for stable training
-
+<hr>
 * Least-squares loss
 * Label smoothing
 * Variable generator training steps per critic training step
@@ -32,20 +33,20 @@ Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 7
 * Generator weight averaging with Beta of 0.999
 
 ## Dataset
-
+<hr>
 <a href="https://www.cityscapes-dataset.com/">Cityscapes Dataset</a><br>
 <img src="training_example.jpg">
 <p>Goal: Predict real image from segmented image.</p>
 
 ## Results
+<hr>
+After the first stable training routine, these images were generated from the test set. Though not perfect, one can see the generator is learning the rules of lanes on streets and is modeling impressive diversity in the look of vehicles. Clearly, more training time was needed but I needed my computer for something else so this setup was cut short.<br>
+<img src="generator_examples/epoch_50.jpg" height="512" width="512"><br>
 
-After the first stable training routine:<br>
-<img src="generator_examples/epoch_50.jpg" style="width:512px;height:512px;"><br>
-
-I have made many modifications to my GAN generator architecture, training algorithms, training stabilization, and hyperparameter choices since the production of these images. I may add more examples once I finalize my architecture choices and commit to a long training session.
+Since my GAN produced these examples, I have made many modifications to my GAN generator architecture, training algorithms, training stabilization, and hyperparameter choices. I may add more examples once I finalize my architecture choices and commit to a long training session.
 
 ## Usage
-
+<hr>
 Use *train_pixelGAN.py* to train a pix2pix adverserial network on a training and validation directory:
 
 ```text
@@ -104,6 +105,7 @@ optional arguments:
   ```
 
 ## References
+<hr>
 <ol>
 <li>Isola, et al., 2016, <a href="https://arxiv.org/abs/1611.07004">Image-to-Image Translation with Conditional Adversarial Networks</a>
 <li>Arjovsky, et al., 2017, <a href="https://arxiv.org/abs/1701.07875">Wasserstein GAN</a>
