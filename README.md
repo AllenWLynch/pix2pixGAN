@@ -15,7 +15,7 @@ I packaged the model-training script into a convenient program with hyperparamet
 
 ## Architectures
 <hr>
-Generative network (G): 8-layer U-Net with strided downsampling instead of pooling and nearest-neighbor+convolutional upsampling. Grey boxes show convolutional layers, while blue shows self-attention layers. Instance normalization is used instead of batch-normalization before ReLU non-linearities are applied<br>
+Generative network (G): 8-layer U-Net with strided downsampling instead of pooling and nearest-neighbor+convolutional upsampling. Grey boxes show convolutional layers, while blue shows self-attention layers. Instance normalization is used instead of batch-normalization before ReLU non-linearities are applied.<br>
 <img src='generator.png'>
 
 Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 70x70 pixel square of input image. This could be tailored for different input image sizes in the future.<br>
