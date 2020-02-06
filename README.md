@@ -4,6 +4,7 @@ Author: Allen Lynch, 2019
 ## Goal
 <hr>
 Demonstrate my ability to translate important entries in the ML literature into my own easy-to-use platform. Here, I use TensorFlow to implement recent innovations in conditional GAN networks, utilizing a suite of the framework's capabilities:
+
 * Keras Functional and Sequential APIs
 * TensorFlow Datasets
 * TensorBoad Integration
@@ -23,6 +24,7 @@ Critic network (D): 5-layer PatchGAN with score averaging. Each patch observes 7
 
 ## Features for stable training
 <hr>
+
 * Least-squares loss
 * Label smoothing
 * Variable generator training steps per critic training step
